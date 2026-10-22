@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="vendor/phpunit/phpunit/phpunit.xsd"
+         bootstrap="tests/bootstrap.php"
+         colors="true"
+         cacheDirectory=".phpunit.cache"
+         executionOrder="depends,defects"
+         beStrictAboutOutputDuringTests="true"
+         failOnRisky="true"
+         failOnWarning="true">
+    <testsuites>
+        <!-- The pure validation rules. No database and no web server. -->
+        <testsuite name="unit">
+            <file>tests/ValidationTest.php</file>
+            <file>tests/LayoutTest.php</file>
+        </testsuite>
+
+        <!-- Signing in, signing out and the protected pages.
+             Needs a server:  php -S 127.0.0.1:8000 -->
+        <testsuite name="auth">
+            <file>tests/AuthTest.php</file>
+        </testsuite>
+
+        <!-- The pages, the status codes and the full create / read / update /
+             delete journey.
+             Needs a server:  php -S 127.0.0.1:8000 -->
+        <testsuite name="routes">
+            <file>tests/RoutesTest.php</file>
+        </testsuite>
+
+        <!-- The search, the filters, the sorting and the pagination.
+             Needs a server and a database. -->
+        <testsuite name="list">
+            <file>tests/ListTest.php</file>
+        </testsuite>
+    </testsuites>
+
+    <source>
+        <include>
+            <directory suffix=".php">inc</directory>
+        </include>
+    </source>
+</phpunit>

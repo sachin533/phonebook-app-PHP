@@ -1,0 +1,19 @@
+# Real credentials never go into git. Copy config.example.php to config.php.
+config.php
+
+# Composer / PHPUnit
+/vendor/
+/composer.lock
+/.phpunit.result.cache
+/.phpunit.cache/
+
+# The tunnel address, written by tunnel.ps1
+/.tunnel-url.txt
+
+# The PHPUnit PHAR is a binary, so it is not committed either.
+# Download it from https://phar.phpunit.de/phpunit-11.phar
+/phpunit.phar
+
+# Local logs and scratch files
+*.log
+*.tmp
