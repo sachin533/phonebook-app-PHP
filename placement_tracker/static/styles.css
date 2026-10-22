@@ -716,6 +716,7 @@ select.form-control {
 
 .filter-reset { color: var(--muted); font-size: 12.5px; display: inline-flex; align-items: center; gap: 5px; }
 .filter-reset:hover { color: var(--red); }
+.filter-reset.is-hidden { display: none; }
 
 /* ==========================================================================
    Table

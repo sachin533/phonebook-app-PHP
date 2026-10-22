@@ -84,9 +84,14 @@ require __DIR__ . '/inc/header.php';
     <input type="hidden" name="dir" value="<?= e((string) $params['dir']) ?>">
     <input type="hidden" name="per_page" value="<?= e((string) $params['per_page']) ?>">
 
-    <?php if (list_has_criteria($params)): ?>
-      <a class="filter-reset" href="/applications.php"><?= icon('close', 13) ?> Reset</a>
-    <?php endif; ?>
+    <?php /* The reset link is always in the bar. The JavaScript hides it
+            when nothing is filtered, and shows it again as soon as a filter
+            is used - so it is there whether the page was reloaded or the
+            filter was changed in place. */ ?>
+    <a class="filter-reset<?= list_has_criteria($params) ? '' : ' is-hidden' ?>"
+       href="/applications.php" data-filter-reset>
+      <?= icon('close', 13) ?> Reset
+    </a>
   </form>
 
   <div class="results-loading" data-results-loading>

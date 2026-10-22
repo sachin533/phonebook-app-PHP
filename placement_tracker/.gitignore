@@ -14,6 +14,12 @@ config.php
 # Download it from https://phar.phpunit.de/phpunit-11.phar
 /phpunit.phar
 
+# The Playwright end to end tests
+/tests/e2e/node_modules/
+/tests/e2e/test-results/
+/tests/e2e/playwright-report/
+/tests/e2e/package-lock.json
+
 # Local logs and scratch files
 *.log
 *.tmp

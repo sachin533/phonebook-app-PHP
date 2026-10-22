@@ -183,6 +183,24 @@
         if (heading && payload.total !== undefined) {
             heading.textContent = payload.total + (payload.total === 1 ? ' application' : ' applications');
         }
+
+        // The reset link shows as soon as a search or a filter is being used,
+        // the same way the server decides it when the page is loaded.
+        var reset = document.querySelector('[data-filter-reset]');
+        if (reset) {
+            var hasFilter = false;
+            if (filterForm) {
+                new FormData(filterForm).forEach(function (value, key) {
+                    if (key !== 'sort' && key !== 'dir' && key !== 'per_page' && value !== '') {
+                        hasFilter = true;
+                    }
+                });
+            }
+            if (!hasFilter && searchInputs.length && searchInputs[0].value !== '') {
+                hasFilter = true;
+            }
+            reset.classList.toggle('is-hidden', !hasFilter);
+        }
     }
 
     function runSearch() {
@@ -190,7 +208,14 @@
 
         var params = currentQuery();
         var term = params.get('q') || '';
-        var url = '/api/applications.php?' + params.toString();
+        var query = params.toString();
+
+        // The request goes to the JSON endpoint, but the address bar keeps
+        // pointing at the page, so a reload or a shared link still shows the
+        // list and not a wall of JSON.
+        var apiUrl = '/api/applications.php' + (query ? '?' + query : '');
+        var pageUrl = '/applications.php' + (query ? '?' + query : '');
+
         if (term === lastTerm && requestInFlight === null) { return; }
         lastTerm = term;
 
@@ -201,7 +226,7 @@
         requestInFlight = controller;
         setLoading(true);
 
-        fetch(url, {
+        fetch(apiUrl, {
             headers: { 'X-Requested-With': 'fetch' },
             signal: controller.signal,
             credentials: 'same-origin'
@@ -213,7 +238,7 @@
             .then(function (payload) {
                 if (!payload || payload.ok !== true) { return; }
                 render(payload);
-                window.history.replaceState({}, '', url);
+                window.history.replaceState({}, '', pageUrl);
             })
             .catch(function (error) {
                 if (error.name === 'AbortError') { return; }
